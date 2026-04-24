@@ -48,21 +48,19 @@ export default function OnboardingPage() {
     if (!res.ok) throw new Error('Failed to save profile');
   }
 
-  async function connectWallet() {
+  async function saveVaultAddress(e: React.FormEvent) {
+    e.preventDefault();
     setError('');
-    const eth = (window as any).ethereum;
-    if (!eth) {
-      setError('MetaMask not found. Please install the MetaMask browser extension.');
+    if (!vaultAddress.startsWith('0x') || vaultAddress.length !== 42) {
+      setError('Please enter a valid Ethereum address (starts with 0x, 42 characters).');
       return;
     }
     setLoading(true);
     try {
-      const accounts: string[] = await eth.request({ method: 'eth_requestAccounts' });
-      const address = accounts[0];
-      setVaultAddress(address);
-      await saveToProfile({ vault_address: address });
+      await saveToProfile({ vault_address: vaultAddress });
+      setStep(2);
     } catch (e: any) {
-      setError(e.message || 'Wallet connection failed');
+      setError(e.message || 'Failed to save wallet address');
     }
     setLoading(false);
   }
@@ -149,32 +147,47 @@ export default function OnboardingPage() {
 
             {/* STEP 1 — WALLET */}
             {step === 1 && (
-              <div>
+              <form onSubmit={saveVaultAddress}>
                 <div className="text-4xl mb-4">🦊</div>
-                <h2 className="text-xl font-bold text-white mb-2">Connect Your Wallet</h2>
-                <p className="text-[#A0A0B8] text-sm mb-8 leading-relaxed">
-                  Connect your MetaMask wallet to generate your unique PayFlow vault address.
-                  International clients will send USDC to this address.
+                <h2 className="text-xl font-bold text-white mb-2">Add Your Wallet Address</h2>
+                <p className="text-[#A0A0B8] text-sm mb-6 leading-relaxed">
+                  International clients will send USDC to this address. Paste your MetaMask wallet address below.
                 </p>
-                {vaultAddress && (
-                  <div className="mb-5 p-4 bg-[#00C896]/10 border border-[#00C896]/20 rounded-xl">
-                    <p className="text-xs text-[#00C896] mb-1 font-semibold">Connected ✓</p>
-                    <p className="text-white text-xs font-mono break-all">{vaultAddress}</p>
-                  </div>
-                )}
-                <motion.button onClick={connectWallet} disabled={loading}
+
+                {/* Instructions */}
+                <div className="mb-6 p-4 bg-white/5 border border-white/10 rounded-xl space-y-2">
+                  {[
+                    'Open MetaMask in your browser',
+                    'Click your account name at the top',
+                    'Copy the address shown (starts with 0x…)',
+                    'Paste it in the field below',
+                  ].map((s, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <span className="w-5 h-5 rounded-full bg-[#6C3AE8]/20 text-[#6C3AE8] text-xs flex items-center justify-center font-bold shrink-0 mt-0.5">{i + 1}</span>
+                      <span className="text-[#A0A0B8] text-sm">{s}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mb-6">
+                  <label className={labelCls}>Your MetaMask Wallet Address</label>
+                  <input
+                    type="text"
+                    value={vaultAddress}
+                    onChange={e => setVaultAddress(e.target.value.trim())}
+                    placeholder="0x..."
+                    required
+                    className={inputCls + ' font-mono'}
+                  />
+                  <p className="text-xs text-[#A0A0B8]/60 mt-2">Copy your address from MetaMask and paste it here</p>
+                </div>
+
+                <motion.button type="submit" disabled={loading}
                   whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
                   className="w-full py-3.5 bg-gradient-to-r from-[#6C3AE8] to-[#00C896] text-white font-semibold rounded-xl disabled:opacity-60 disabled:cursor-not-allowed">
-                  {loading ? 'Connecting…' : vaultAddress ? 'Reconnect Wallet' : 'Connect MetaMask'}
+                  {loading ? 'Saving…' : 'Save Vault Address →'}
                 </motion.button>
-                {vaultAddress && (
-                  <motion.button onClick={() => { setError(''); setStep(2); }}
-                    whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                    className="w-full mt-3 py-3.5 border border-white/15 text-white font-semibold rounded-xl hover:bg-white/5 transition">
-                    Continue →
-                  </motion.button>
-                )}
-              </div>
+              </form>
             )}
 
             {/* STEP 2 — BANK */}
