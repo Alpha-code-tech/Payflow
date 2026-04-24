@@ -1,0 +1,55 @@
+Name: payflow-wf2-fx-monitor
+Trigger:
+  TriggerSourceContract: NA
+  TriggerChainID: NA
+  TriggerEventName: NA
+  TriggerEventFilter: NA
+  TriggerSourceContractABI: NA
+  TriggerPrice: NA
+  RecurringSourceContract: NA
+  RecurringChainID: NA
+  RecurringEventName: NA
+  RecurringEventFilter: NA
+  RecurringSourceContractABI: NA
+  RecurringPrice: NA
+  RepeatEvery: NA
+  ExecuteAfter: immediate
+  ExpiresIn: 1780225200
+  Meta: NA
+  ActionStatusNotificationPOSTURL: 
+  ActionStatusNotificationAPIKey: NA
+Actions:
+  - Name: fetch_and_store_rate
+    Type: post
+    SmartWallet: NA
+    APIEndpoint: https://payflow-ud12.onrender.com/fx-rate
+    APIPayload:
+      event: fetch_rate
+      currency_pair: USD/NGN
+    TargetContract: NA
+    TargetFunction: NA
+    TargetParams: 
+    ChainID: NA
+    EncodedABI: NA
+    Bytecode: NA
+    EncodedGoContract: NA
+    Metadata: NA
+    RetriesUntilSuccess: 3
+  - Name: notify_rate_update
+    Type: post
+    SmartWallet: NA
+    APIEndpoint: https://api.telegram.org/bot8620293046:AAEc5QQ26LDaiIUEoxuwJD4gO5n_jVGNqZo/sendMessage
+    APIPayload:
+      chat_id: '7971943900'
+      text: 'PayFlow Rate Update: Current USD/NGN rate has been checked. Monitor active.'
+    TargetContract: NA
+    TargetFunction: NA
+    TargetParams: 
+    ChainID: NA
+    EncodedABI: NA
+    Bytecode: NA
+    EncodedGoContract: NA
+    Metadata: NA
+    RetriesUntilSuccess: 3
+Execution:
+  Mode: sequential

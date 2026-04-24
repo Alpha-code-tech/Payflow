@@ -1,0 +1,69 @@
+Name: payflow-wf6-notifications
+Trigger:
+  TriggerSourceContract: NA
+  TriggerChainID: NA
+  TriggerEventName: NA
+  TriggerEventFilter: NA
+  TriggerSourceContractABI: NA
+  TriggerPrice: NA
+  RecurringSourceContract: NA
+  RecurringChainID: NA
+  RecurringEventName: NA
+  RecurringEventFilter: NA
+  RecurringSourceContractABI: NA
+  RecurringPrice: NA
+  RepeatEvery: NA
+  ExecuteAfter: immediate
+  ExpiresIn: 1780182000
+  Meta: NA
+  ActionStatusNotificationPOSTURL: 
+  ActionStatusNotificationAPIKey: NA
+Actions:
+  - Name: notify_ade_complete
+    Type: post
+    SmartWallet: NA
+    APIEndpoint: https://api.telegram.org/bot8620293046:AAEc5QQ26LDaiIUEoxuwJD4gO5n_jVGNqZo/sendMessage
+    APIPayload:
+      chat_id: '7971943900'
+      text: |-
+        PayFlow: Payment Complete!
+        Here is your full summary:
+        Received: $1,200 USDC
+        Converted at: NGN 1,650/$
+        Total NGN: 1,980,000
+        Sent to: GTBank 0123456789
+        Reference: payflow-001
+        On-chain hash: 0x7f3a...demo
+        Funds arrive within 2 hours.
+    TargetContract: NA
+    TargetFunction: NA
+    TargetParams: 
+    ChainID: NA
+    EncodedABI: NA
+    Bytecode: NA
+    EncodedGoContract: NA
+    Metadata: NA
+    RetriesUntilSuccess: 3
+  - Name: notify_client_complete
+    Type: post
+    SmartWallet: NA
+    APIEndpoint: https://api.telegram.org/bot8620293046:AAEc5QQ26LDaiIUEoxuwJD4gO5n_jVGNqZo/sendMessage
+    APIPayload:
+      chat_id: '7971943900'
+      text: |-
+        PayFlow: Payment Confirmed!
+        Your payment of $1,200 USDC to Ade has been successfully processed and converted to NGN.
+        On-chain reference: 0x7f3a...demo
+        Date: April 24, 2026
+        Thank you for using PayFlow.
+    TargetContract: NA
+    TargetFunction: NA
+    TargetParams: 
+    ChainID: NA
+    EncodedABI: NA
+    Bytecode: NA
+    EncodedGoContract: NA
+    Metadata: NA
+    RetriesUntilSuccess: 3
+Execution:
+  Mode: sequential

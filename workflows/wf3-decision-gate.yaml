@@ -1,0 +1,44 @@
+Name: payflow-wf3-decision-gate
+Trigger:
+  TriggerSourceContract: NA
+  TriggerChainID: NA
+  TriggerEventName: NA
+  TriggerEventFilter: NA
+  TriggerSourceContractABI: NA
+  TriggerPrice: NA
+  RecurringSourceContract: NA
+  RecurringChainID: NA
+  RecurringEventName: NA
+  RecurringEventFilter: NA
+  RecurringSourceContractABI: NA
+  RecurringPrice: NA
+  RepeatEvery: NA
+  ExecuteAfter: immediate
+  ExpiresIn: 1780225200
+  Meta: NA
+  ActionStatusNotificationPOSTURL: 
+  ActionStatusNotificationAPIKey: NA
+Actions:
+  - Name: ask_payflow_to_confirm
+    Type: post
+    SmartWallet: NA
+    APIEndpoint: https://api.telegram.org/bot8620293046:AAEc5QQ26LDaiIUEoxuwJD4gO5n_jVGNqZo/sendMessage
+    APIPayload:
+      chat_id: '7971943900'
+      text: |-
+        PayFlow Alert: The current USD/NGN rate is favourable.
+        You have $1,200 USDC ready to convert.
+        Reply YES to convert now at the current rate.
+        Reply NO to keep waiting for a better rate.
+        Reply SNOOZE to remind you in 1 hour.
+    TargetContract: NA
+    TargetFunction: NA
+    TargetParams: 
+    ChainID: NA
+    EncodedABI: NA
+    Bytecode: NA
+    EncodedGoContract: NA
+    Metadata: NA
+    RetriesUntilSuccess: 3
+Execution:
+  Mode: sequential

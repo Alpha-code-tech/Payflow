@@ -1,0 +1,62 @@
+Name: payflow-wf1-payment-intake
+Trigger:
+  TriggerSourceContract: NA
+  TriggerChainID: NA
+  TriggerEventName: NA
+  TriggerEventFilter: NA
+  TriggerSourceContractABI: NA
+  TriggerPrice: NA
+  RecurringSourceContract: NA
+  RecurringChainID: NA
+  RecurringEventName: NA
+  RecurringEventFilter: NA
+  RecurringSourceContractABI: NA
+  RecurringPrice: NA
+  RepeatEvery: NA
+  ExecuteAfter: immediate
+  ExpiresIn: 1780185600
+  Meta: NA
+  ActionStatusNotificationPOSTURL: 
+  ActionStatusNotificationAPIKey: NA
+Actions:
+  - Name: log_payment_received
+    Type: post
+    SmartWallet: NA
+    APIEndpoint: https://payflow-ud12.onrender.com/payment
+    APIPayload:
+      event: payment_received
+      from: '{{trigger.from}}'
+      amount: '{{trigger.value}}'
+      tx_hash: '{{trigger.transactionHash}}'
+      timestamp: '{{trigger.timestamp}}'
+    TargetContract: NA
+    TargetFunction: NA
+    TargetParams: 
+    ChainID: NA
+    EncodedABI: NA
+    Bytecode: NA
+    EncodedGoContract: NA
+    Metadata: NA
+    RetriesUntilSuccess: 3
+  - Name: notify_payment_received
+    Type: post
+    SmartWallet: NA
+    APIEndpoint: https://api.telegram.org/bot8620293046:AAEc5QQ26LDaiIUEoxuwJD4gO5n_jVGNqZo/sendMessage
+    APIPayload:
+      chat_id: '7971943900'
+      text: |-
+        PayFlow: New USDC payment received!
+        From: {{trigger.from}}
+        Amount: {{trigger.value}} USDC
+        Tx: {{trigger.transactionHash}}
+    TargetContract: NA
+    TargetFunction: NA
+    TargetParams: 
+    ChainID: NA
+    EncodedABI: NA
+    Bytecode: NA
+    EncodedGoContract: NA
+    Metadata: NA
+    RetriesUntilSuccess: 3
+Execution:
+  Mode: parallel

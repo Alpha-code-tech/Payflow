@@ -1,0 +1,66 @@
+Name: payflow-wf5-offramp
+Trigger:
+  TriggerSourceContract: NA
+  TriggerChainID: NA
+  TriggerEventName: NA
+  TriggerEventFilter: NA
+  TriggerSourceContractABI: NA
+  TriggerPrice: NA
+  RecurringSourceContract: NA
+  RecurringChainID: NA
+  RecurringEventName: NA
+  RecurringEventFilter: NA
+  RecurringSourceContractABI: NA
+  RecurringPrice: NA
+  RepeatEvery: NA
+  ExecuteAfter: immediate
+  ExpiresIn: 1780182000
+  Meta: NA
+  ActionStatusNotificationPOSTURL: 
+  ActionStatusNotificationAPIKey: NA
+Actions:
+  - Name: initiate_bank_transfer
+    Type: post
+    SmartWallet: NA
+    APIEndpoint: https://payflow-ud12.onrender.com/offramp
+    APIPayload:
+      event: bank_transfer_initiated
+      amount_ngn: '1980000'
+      bank_name: GTBank
+      account_number: '0123456789'
+      account_name: Ade Johnson
+      reference: payflow-offramp-001
+      status: processing
+    TargetContract: NA
+    TargetFunction: NA
+    TargetParams: 
+    ChainID: NA
+    EncodedABI: NA
+    Bytecode: NA
+    EncodedGoContract: NA
+    Metadata: NA
+    RetriesUntilSuccess: 3
+  - Name: notify_transfer_initiated
+    Type: post
+    SmartWallet: NA
+    APIEndpoint: https://api.telegram.org/bot8620293046:AAEc5QQ26LDaiIUEoxuwJD4gO5n_jVGNqZo/sendMessage
+    APIPayload:
+      chat_id: '7971943900'
+      text: |-
+        PayFlow: Bank Transfer Initiated!
+        NGN 1,980,000 is being sent to your GTBank account.
+        Account: 0123456789
+        Reference: payflow-offramp-001
+        Funds will arrive within 2 hours.
+        We will notify you when confirmed.
+    TargetContract: NA
+    TargetFunction: NA
+    TargetParams: 
+    ChainID: NA
+    EncodedABI: NA
+    Bytecode: NA
+    EncodedGoContract: NA
+    Metadata: NA
+    RetriesUntilSuccess: 3
+Execution:
+  Mode: sequential

@@ -1,0 +1,67 @@
+Name: payflow-wf4-swap-executor
+Trigger:
+  TriggerSourceContract: NA
+  TriggerChainID: NA
+  TriggerEventName: NA
+  TriggerEventFilter: NA
+  TriggerSourceContractABI: NA
+  TriggerPrice: NA
+  RecurringSourceContract: NA
+  RecurringChainID: NA
+  RecurringEventName: NA
+  RecurringEventFilter: NA
+  RecurringSourceContractABI: NA
+  RecurringPrice: NA
+  RepeatEvery: NA
+  ExecuteAfter: immediate
+  ExpiresIn: 1780185600
+  Meta: NA
+  ActionStatusNotificationPOSTURL: 
+  ActionStatusNotificationAPIKey: NA
+Actions:
+  - Name: execute_swap
+    Type: post
+    SmartWallet: NA
+    APIEndpoint: https://payflow-ud12.onrender.com/swap
+    APIPayload:
+      event: swap_executed
+      from_currency: USDC
+      to_currency: NGN
+      amount: '1200'
+      rate: '1650'
+      ngn_amount: '1980000'
+      status: success
+      reference: payflow-swap-001
+    TargetContract: NA
+    TargetFunction: NA
+    TargetParams: 
+    ChainID: NA
+    EncodedABI: NA
+    Bytecode: NA
+    EncodedGoContract: NA
+    Metadata: NA
+    RetriesUntilSuccess: 3
+  - Name: notify_swap_complete
+    Type: post
+    SmartWallet: NA
+    APIEndpoint: https://api.telegram.org/bot8620293046:AAEc5QQ26LDaiIUEoxuwJD4gO5n_jVGNqZo/sendMessage
+    APIPayload:
+      chat_id: '7971943900'
+      text: |-
+        PayFlow: Swap Executed!
+        $1,200 USDC has been converted to NGN.
+        Amount: NGN 1,980,000
+        Rate: NGN 1,650 per $1
+        Reference: payflow-swap-001
+        Proceeding to bank transfer now...
+    TargetContract: NA
+    TargetFunction: NA
+    TargetParams: 
+    ChainID: NA
+    EncodedABI: NA
+    Bytecode: NA
+    EncodedGoContract: NA
+    Metadata: NA
+    RetriesUntilSuccess: 3
+Execution:
+  Mode: sequential
