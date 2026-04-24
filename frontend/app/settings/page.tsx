@@ -104,7 +104,7 @@ export default function SettingsPage() {
                 const bank = BANKS.find(b => b.name === e.target.value);
                 setBankName(e.target.value);
                 setBankCode(bank?.code || '');
-              }} className={inputCls + ' cursor-pointer bg-[#0A0A0F]'}>
+              }} className={inputCls + ' cursor-pointer bg-[#1a1a2e]'}>
                 <option value="" disabled>Select your bank</option>
                 {BANKS.map(b => <option key={b.code} value={b.name}>{b.name}</option>)}
               </select>

@@ -191,7 +191,7 @@ export default function OnboardingPage() {
                       setBankName(e.target.value);
                       setBankCode(bank?.code || '');
                     }} required
-                      className={inputCls + ' cursor-pointer bg-[#0A0A0F]'}>
+                      className={inputCls + ' cursor-pointer bg-[#1a1a2e]'}>
                       <option value="" disabled>Select your bank</option>
                       {BANKS.map(b => <option key={b.code} value={b.name}>{b.name}</option>)}
                     </select>
