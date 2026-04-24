@@ -152,27 +152,22 @@ app.post('/fx-rate', async (req, res) => {
 });
 
 // ══════════════════════════════════════════════════════════════════════════
-// GET /rate  — most recent stored rate, or live if table empty
+// GET /rate  — always fetches live rate from ExchangeRate API
 // ══════════════════════════════════════════════════════════════════════════
 app.get('/rate', async (req, res) => {
-  const { data: latest, error } = await supabase
-    .from('fx_rates')
-    .select('*')
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .single();
-
-  if (error || !latest) {
-    // Table empty — fetch live
-    try {
-      const rate = await fetchLiveRate();
-      return res.json({ status: 'success', rate, currency_pair: 'USD/NGN', source: 'live' });
-    } catch (e) {
-      return err(res, 502, 'Failed to fetch exchange rate', e.message);
-    }
+  try {
+    const response = await axios.get(
+      `https://v6.exchangerate-api.com/v6/${process.env.FX_API_KEY}/pair/USD/NGN`
+    );
+    res.json({
+      status:        'success',
+      rate:          response.data.conversion_rate,
+      currency_pair: 'USD/NGN',
+      timestamp:     new Date().toISOString(),
+    });
+  } catch (e) {
+    return err(res, 500, 'Failed to fetch exchange rate', e.message);
   }
-
-  res.json({ status: 'success', rate: latest.rate, currency_pair: 'USD/NGN', timestamp: latest.created_at, source: 'cached' });
 });
 
 // ══════════════════════════════════════════════════════════════════════════
