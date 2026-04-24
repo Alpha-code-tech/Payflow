@@ -48,8 +48,29 @@ async function fetchLiveRate() {
 // ══════════════════════════════════════════════════════════════════════════
 // GET /health
 // ══════════════════════════════════════════════════════════════════════════
+app.get('/', (req, res) => {
+  res.json({
+    service: 'PayFlow API',
+    status: 'running',
+    version: '1.0.0',
+    endpoints: [
+      'GET /health',
+      'GET /rate',
+      'GET /transactions/:userId',
+      'GET /profile/:userId',
+      'POST /payment',
+      'POST /fx-rate',
+      'POST /swap',
+      'POST /offramp',
+      'POST /notify',
+      'POST /decision',
+      'POST /profile/:userId',
+    ],
+  });
+});
+
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.json({ status: 'ok', timestamp: new Date().toISOString(), service: 'PayFlow API' });
 });
 
 // ══════════════════════════════════════════════════════════════════════════
