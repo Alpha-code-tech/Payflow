@@ -4,6 +4,7 @@
 create table if not exists public.profiles (
   id                   uuid primary key references auth.users(id) on delete cascade,
   email                text,
+  full_name            text,
   vault_address        text unique,
   bank_name            text,
   bank_code            text,
@@ -48,8 +49,8 @@ create table if not exists public.fx_rates (
 create or replace function public.handle_new_user()
 returns trigger language plpgsql security definer as $$
 begin
-  insert into public.profiles (id, email)
-  values (new.id, new.email)
+  insert into public.profiles (id, email, full_name)
+  values (new.id, new.email, new.raw_user_meta_data->>'full_name')
   on conflict (id) do nothing;
   return new;
 end;
