@@ -129,7 +129,7 @@ export default function Pricing() {
 
               {/* CTA */}
               <motion.a
-                href="#"
+                href={plan.cta === 'Contact Us' ? 'mailto:hello@payflow.app' : '/sign-up'}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className={`block w-full py-3.5 text-center text-sm font-semibold rounded-lg transition-all duration-300 ${plan.ctaClass}`}

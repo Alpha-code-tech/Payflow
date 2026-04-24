@@ -52,7 +52,7 @@ export default function CTASection() {
           className="flex flex-col items-center gap-4"
         >
           <motion.a
-            href="#"
+            href="/sign-up"
             whileHover={{ scale: 1.04, boxShadow: '0 0 50px rgba(255,255,255,0.25)' }}
             whileTap={{ scale: 0.97 }}
             className="px-9 py-4 bg-white text-[#6C3AE8] font-bold text-lg rounded-xl shadow-xl hover:bg-white/95 transition-all duration-300"

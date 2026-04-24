@@ -3,17 +3,10 @@ import { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 
-const stats = [
-  { value: 2.4, suffix: 'M+', prefix: '$', label: 'Total Processed' },
-  { value: 5000, suffix: '+', prefix: '', label: 'Freelancers Served' },
-  { value: 1348, suffix: '', prefix: '₦', label: 'Live NGN Rate' },
-  { value: 0.2, suffix: '%', prefix: '', label: 'Platform Fee' },
-];
-
 function useCountUp(end, inView, duration = 2000, decimals = 0) {
   const [count, setCount] = useState(0);
   useEffect(() => {
-    if (!inView) return;
+    if (!inView || !end) return;
     const startTime = performance.now();
     const frame = (now) => {
       const elapsed = now - startTime;
@@ -48,8 +41,15 @@ function StatItem({ stat, inView, index }) {
   );
 }
 
-export default function StatsBar() {
+export default function StatsBar({ liveRate }) {
   const { ref, inView } = useInView({ threshold: 0.3, triggerOnce: true });
+
+  const stats = [
+    { value: 2.4,  suffix: 'M+', prefix: '$', label: 'Total Processed' },
+    { value: 5200, suffix: '+',  prefix: '',  label: 'Freelancers Served' },
+    { value: liveRate || 1620, suffix: '', prefix: '₦', label: 'Live NGN Rate' },
+    { value: 0.2,  suffix: '%',  prefix: '',  label: 'Platform Fee' },
+  ];
 
   return (
     <section ref={ref} className="relative py-14 border-y border-white/5 bg-white/[0.02]">

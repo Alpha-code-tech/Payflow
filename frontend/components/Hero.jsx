@@ -1,5 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import DashboardMockup from './DashboardMockup';
 
 const container = {
@@ -13,9 +14,14 @@ const item = {
 };
 
 const headlines = ['Get Paid in USDC.', 'Convert to Naira', 'On Your Terms.'];
-const pills = ['0.2% Fee', '₦1,348 Live Rate', '2hr Settlement'];
 
-export default function Hero() {
+export default function Hero({ liveRate }) {
+  const pills = [
+    '0.2% Fee',
+    liveRate ? `₦${Number(liveRate).toLocaleString()} Live Rate` : '₦1,620 Live Rate',
+    '2hr Settlement',
+  ];
+
   return (
     <section id="hero" className="relative min-h-screen flex items-center pt-20 pb-16 px-4 sm:px-6 overflow-hidden">
       {/* Radial glow */}
@@ -83,14 +89,14 @@ export default function Hero() {
 
           {/* CTA buttons */}
           <motion.div variants={item} className="flex flex-col sm:flex-row gap-4">
-            <motion.a
-              href="#pricing"
-              whileHover={{ scale: 1.03, boxShadow: '0 0 36px rgba(108,58,232,0.6)' }}
-              whileTap={{ scale: 0.97 }}
-              className="px-7 py-4 font-semibold text-white rounded-lg bg-gradient-to-r from-[#6C3AE8] to-[#00C896] text-center text-base shadow-lg shadow-[#6C3AE8]/20 transition-all duration-300"
-            >
-              Start Receiving Payments
-            </motion.a>
+            <motion.div whileHover={{ scale: 1.03, boxShadow: '0 0 36px rgba(108,58,232,0.6)' }} whileTap={{ scale: 0.97 }}>
+              <Link
+                href="/sign-up"
+                className="block px-7 py-4 font-semibold text-white rounded-lg bg-gradient-to-r from-[#6C3AE8] to-[#00C896] text-center text-base shadow-lg shadow-[#6C3AE8]/20 transition-all duration-300"
+              >
+                Start Receiving Payments
+              </Link>
+            </motion.div>
             <motion.a
               href="#how-it-works"
               whileHover={{ scale: 1.03, backgroundColor: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.4)' }}

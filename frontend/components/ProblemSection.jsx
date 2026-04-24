@@ -1,10 +1,13 @@
 'use client';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { Globe, Banknote, Clock } from 'lucide-react';
 
 const problems = [
   {
-    icon: '🚫',
+    Icon: Globe,
+    iconBg: 'rgba(239,68,68,0.15)',
+    iconColor: '#EF4444',
     title: 'PayPal is Blocked in Nigeria',
     desc: 'Over 200 million Nigerians cannot access PayPal. International clients send payments that simply never arrive.',
     stat: '200M+ Nigerians affected',
@@ -13,7 +16,9 @@ const problems = [
     border: 'rgba(239,68,68,0.2)',
   },
   {
-    icon: '💸',
+    Icon: Banknote,
+    iconBg: 'rgba(249,115,22,0.15)',
+    iconColor: '#F97316',
     title: 'Payoneer Takes Too Much',
     desc: '2% conversion fee plus an 8% exchange rate spread means you lose up to $120 on every $1,000 earned. That is your money.',
     stat: 'Up to 10% lost per transaction',
@@ -22,7 +27,9 @@ const problems = [
     border: 'rgba(249,115,22,0.2)',
   },
   {
-    icon: '⏰',
+    Icon: Clock,
+    iconBg: 'rgba(234,179,8,0.15)',
+    iconColor: '#EAB308',
     title: 'You Miss the Best Rates',
     desc: 'The NGN rate changes every hour. Without automation you convert at whatever rate exists when you remember to check — not when it is best for you.',
     stat: 'Avg 6% better rate with automation',
@@ -83,7 +90,13 @@ export default function ProblemSection() {
               {/* Accent top bar */}
               <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-2xl" style={{ background: p.accent }} />
 
-              <div className="text-4xl mb-5">{p.icon}</div>
+              {/* Icon */}
+              <div
+                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5"
+                style={{ background: p.iconBg }}
+              >
+                <p.Icon size={24} color={p.iconColor} strokeWidth={1.75} />
+              </div>
 
               <h3 className="text-white font-bold text-xl mb-3 leading-snug">{p.title}</h3>
 
