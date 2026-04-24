@@ -17,9 +17,17 @@ const FX_URL = `https://v6.exchangerate-api.com/v6/${process.env.FX_API_KEY}/pai
 // ── Middleware ────────────────────────────────────────────────────────────
 app.use(express.json());
 
+const ALLOWED_ORIGINS = [
+  'http://localhost:3000',
+  'https://payflow-eight-dun.vercel.app',
+  ...(process.env.ALLOWED_ORIGIN ? [process.env.ALLOWED_ORIGIN] : []),
+];
+
 app.use((req, res, next) => {
-  const origin = process.env.ALLOWED_ORIGIN || '*';
-  res.setHeader('Access-Control-Allow-Origin', origin);
+  const origin = req.headers.origin;
+  if (!origin || ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin || '*');
+  }
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
   if (req.method === 'OPTIONS') return res.sendStatus(204);
